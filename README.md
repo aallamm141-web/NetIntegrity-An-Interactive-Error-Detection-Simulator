@@ -1,77 +1,91 @@
-# Network Error Detection Analyzer
-### Project Option 2 — Data Communications
+```markdown
+# NetIntegrity: Network Error Detection Analyzer
+### Project Option 2 — Data Communications & Networking
+
+NetIntegrity is a professional-grade simulation tool designed to analyze and visualize the efficiency of data integrity algorithms. By leveraging **Monte-Carlo simulations**, the project evaluates how different techniques (Parity, Checksum, and CRC-16) perform under varying levels of network noise.
 
 ---
 
-## Project Structure
+##  Key Features
+- **Monte-Carlo Simulation:** Runs thousands of automated trials per error rate to provide statistically significant detection data.
+- **Industry Standard CRC-16:** Implements the CRC-16-ANSI polynomial division used in USB and Ethernet protocols.
+- **Interactive Dashboard:** A modern, dark-themed Flask web interface for real-time "Live Transmissions."
+- **Data Visualization:** Automatically generates Heatmaps, Bar Charts, and Detection Curves using Matplotlib.
+
+---
+
+##  Project Structure
 
 ```
+
 /root/project/
-├── error_detection.py   ← Core algorithms (Parity, Checksum, CRC-16)
-├── server.py            ← Flask web server (API + dashboard)
-├── analyze.py           ← CLI analyzer with chart export
+├── error_detection.py    # Core algorithms (Parity, Checksum, CRC-16)
+├── server.py             # Flask backend (REST API + Web Dashboard)
+├── analyze.py            # CLI tool for batch simulation & chart export
 ├── static/
-│   └── index.html       ← Interactive web dashboard
-├── output/              ← Generated charts & JSON (auto-created)
-└── README.md
+│   └── index.html        # Interactive Frontend (Vanilla JS + CSS3)
+├── output/               # Auto-generated simulation reports & PNGs
+└── README.md             # Project documentation
+
 ```
 
 ---
 
-## How to Run
+##  Installation & Requirements
+Ensure you have **Python 3.8+** installed. You will need the following libraries:
 
-### Option A — Web Dashboard (recommended)
 ```bash
-cd /root/project
+pip install flask matplotlib numpy
+
+```
+
+---
+
+##  How to Run
+
+### Option A: Interactive Web Dashboard (Recommended)
+
+```bash
 python server.py
-# Open browser → http://localhost:5000
-```
-The dashboard calls the Python backend in real-time.
-Every "Run Simulation" click runs a fresh Monte-Carlo simulation.
+# Open: http://localhost:5000
 
-### Option B — Command Line
+```
+
+Use the dashboard to customize error rates, steps, and trials. The "Live Transmission" tool allows you to see exactly how bits are flipped and whether the algorithms catch them.
+
+### Option B: CLI Analyzer
+
 ```bash
-cd /root/project
-python analyze.py
-# Optional arguments:
-python analyze.py --rates 1 30 --steps 25 --trials 1000
+python analyze.py --rates 1 30 --steps 20 --trials 1000
+
 ```
-Outputs charts to `/root/project/output/` and prints a report.
+
+This generates a full report in the terminal and saves high-resolution charts to the `output/` folder.
 
 ---
 
-## Error Detection Techniques
+##  Comparative Analysis
 
-| Technique    | Overhead | Detects                     | Miss Rate |
-|--------------|----------|-----------------------------|-----------|
-| Parity Check | +1 bit   | Odd-count bit errors only   | ~50%      |
-| Checksum     | +16 bits | Most random errors          | <0.5%     |
-| CRC-16       | +16 bits | Burst errors ≤ 16 bits      | ~0%       |
+| Technique | Overhead | Detection Logic | Reliability |
+| --- | --- | --- | --- |
+| **Parity** | +1 bit | Detects odd-count bit flips | Weak (50%) |
+| **Checksum** | +16 bits | 1's complement summation | Good (>99%) |
+| **CRC-16** | +16 bits | Polynomial Division (MOD-2) | Best (99.9%) |
+
+> **Technical Insight:** While Parity is efficient for simple serial links, **CRC-16** provides the highest mathematical guarantee for detecting burst errors, making it the standard for modern high-speed networking.
 
 ---
 
-## API Endpoints (when server.py is running)
+## 🔗 API Documentation
 
-| Method | URL            | Description                       |
-|--------|----------------|-----------------------------------|
-| GET    | `/`            | Interactive web dashboard         |
-| POST   | `/api/simulate`| Run full Monte-Carlo simulation   |
-| POST   | `/api/transmit`| Simulate one message transmission |
+The backend exposes a REST API for external integration:
 
-### POST /api/simulate
-```json
-{
-  "min_rate": 1,
-  "max_rate": 20,
-  "steps": 20,
-  "trials": 600
-}
-```
+* `POST /api/simulate`: Executes a full simulation sweep.
+* `POST /api/transmit`: Simulates a single message with manual error injection.
 
-### POST /api/transmit
-```json
-{
-  "message": "Hello Network!",
-  "error_rate": 5
-}
+---
+
+**Developed by:** Allam
+**Field:** Cybersecurity & Network Engineering
+
 ```
