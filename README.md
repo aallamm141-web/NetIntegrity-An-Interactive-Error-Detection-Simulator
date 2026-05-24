@@ -87,5 +87,3 @@ The backend exposes a REST API for external integration:
 
 **Developed by:** Allam
 **Field:** Cybersecurity & Network Engineering
-
-```
