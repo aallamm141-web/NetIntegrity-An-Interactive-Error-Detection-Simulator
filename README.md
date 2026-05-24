@@ -1,4 +1,4 @@
-```markdown
+markdown
 # NetIntegrity: Network Error Detection Analyzer
 ### Project Option 2 — Data Communications & Networking
 
@@ -16,7 +16,7 @@ NetIntegrity is a professional-grade simulation tool designed to analyze and vis
 
 ##  Project Structure
 
-```
+
 
 /root/project/
 ├── error_detection.py    # Core algorithms (Parity, Checksum, CRC-16)
